@@ -1,5 +1,7 @@
 # Manifest and result contract
 
+[Quick overview](../README.md) · [Run guide](usage.md) · [Parameters and engineering](engineering.md)
+
 The input is UTF-8 JSONL, one object per nonblank line. IDs are unique strings matching `[A-Za-z0-9][A-Za-z0-9_.-]{0,127}`. Absolute image paths are supported; relative paths resolve from the manifest directory unless `--image-root` is supplied. Multipage/animated images are rejected.
 
 | Field | Required | Meaning |

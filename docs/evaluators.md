@@ -1,4 +1,6 @@
-# Six-semantic evaluator rules
+# Complete semantic rules
+
+[Quick overview](../README.md) · [Parameters and engineering](engineering.md) · [Input/output contract](interface.md)
 
 These defaults derive from the STAR study's frozen v3 protocol. They are general task rules, not claims of validated accuracy on every backbone or dataset. See [provenance](provenance.md).
 
@@ -38,7 +40,7 @@ Qwen receives relevant definitions in its system message. DINO receives category
 
 ### Object
 
-Run the target-category query and apply the fixed detection/label-filter/NMS procedure described below. At least one retained box yields `true`; no retained box yields `false`. The score is one when this Boolean matches the requested presence/absence reference, otherwise zero.
+Run the target-category query and apply the fixed detection/label-filter/NMS [detection procedure](engineering.md#default-models-and-parameters). At least one retained box yields `true`; no retained box yields `false`. The score is one when this Boolean matches the requested presence/absence reference, otherwise zero.
 
 Multiple instances are allowed. No detection is a negative detection estimate, not proof that the object is absent. The detector does not provide an explicit `unclear` result for this task.
 
@@ -116,7 +118,7 @@ All relation subtypes use exact answer matching. Report left/right, above/below,
 
 ## States and scoring
 
-Qwen is instructed to return JSON fields `identity_status`, `status`, `answer`, and brief visual `evidence`. For the final Qwen attribute/relation tasks, identity is `present`, `missing`, `ambiguous` or `unclear`. A non-present identity requires the same observation status and a null answer. Present identity can still have an unclear property. The parser checks allowed identity/status/answer combinations and answer categories; it does **not** verify the truth of the evidence text.
+Qwen returns an observation after identifying the object. Missing, ambiguous or unclear identity cannot yield confirmed attribute/relation success. The [response schema and parser behavior](engineering.md#structured-qwen-responses) are specified separately.
 
 | Observation/result | Score | Aggregation |
 |---|---:|---|
@@ -127,35 +129,12 @@ Qwen is instructed to return JSON fields `identity_status`, `status`, `answer`, 
 | `unclear` | 0 | Included; uncertainty frequency retained |
 | Invalid JSON/category/status combination or execution failure → `evaluation_error` | No score | Excluded from means; error count and denominator retained |
 
-For non-`ok` observations, the answer must be null. Comparison is type-sensitive; arbitrary prose answers are not guessed. The shared parser supports lossless unsigned numeric-string conversion for Qwen count audits, but Qwen count audits are not part of the final primary-only workload.
-
-An invalid Qwen response gets **one fixed schema-reminder retry**. Both raw attempts are retained. If the retry is invalid, the record remains an error. There is no target-informed retry or post-hoc color mapping.
-
-Final curves report:
+Reported metrics:
 
 1. **Confirmed semantic success:** mean score over valid records; not true generator accuracy.
-2. **Paired change:** mean `(masked score - baseline score)` on the same prompt/seed with both scores valid, in percentage points.
+2. **Paired change:** mean `(intervention score - baseline score)` over valid matched pairs. The generic summary returns score units; multiply by 100 for percentage points.
 3. **Uncertain rate:** fraction of valid records marked ambiguous or unclear. Missing rate is also retained in CSV/JSON. Zero uncertainty is not evidence of reliable perception, especially for non-abstaining DINO tasks.
 4. **Baseline-correct retention:** success among valid pairs whose baseline score is one, with its denominator.
 5. **Count deviation and numeric coverage**, plus texture/spatial subtype curves.
 
 All images remain represented in the saved results. Difficult prompts are not dropped to improve curves. The generic summary reports descriptive means, not confidence intervals. Replicate seeds, clustered scene templates and pairing design are the responsibility of each experiment. The standalone package does not require STAR scale curves.
-
-## Default models and parameters
-
-| Setting | Value used |
-|---|---|
-| DINO checkpoint | `IDEA-Research/grounding-dino-base` |
-| DINO model/processor revision | `12bdfa3120f3e7ec7b434d90674b3396eccf88eb` |
-| Box / text thresholds | `0.30` / `0.25` |
-| Per-query NMS IoU | `0.50` |
-| Spatial center tolerance | `0.02` of width/height |
-| Qwen checkpoint | `Qwen/Qwen3-VL-8B-Instruct` |
-| Qwen model/processor revision | `0c351dd01ed87e9c1b53cbc748cba10e6187ff3b` |
-| Qwen image pixel limits | Minimum `65,536`; maximum `262,144` |
-| Qwen decoding | Greedy (`do_sample=false`), maximum 192 new tokens |
-| Inference | RunPod CUDA; DINO FP32, Qwen BF16 with SDPA |
-
-DINO queries each noun independently as lowercase text with a final period. After processor postprocessing, decoded text labels must match the configured query/alias after lowercasing and word/whitespace normalization. NMS then removes overlapping retained candidates **within each query**, using detection scores. Boxes are not jointly deduplicated across different object categories. These fixed settings were not validated as optimal thresholds and do not vary by image or mask condition.
-
-Each result is saved atomically. Resuming with identical inputs reuses successful records and retries error records while preserving prior failed attempts. Manifests reject changed inputs, code, dependencies or configurations in an existing output directory.
