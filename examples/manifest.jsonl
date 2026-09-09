@@ -1,0 +1,9 @@
+{"id":"object_example","image":"images/object.png","semantic":"object","objects":["dog"],"expected":true,"metadata":{"backbone":"your_model"}}
+{"id":"color_example","image":"images/color.png","semantic":"color","objects":["car"],"expected":"red","metadata":{"backbone":"your_model"}}
+{"id":"shape_example","image":"images/shape.png","semantic":"shape","objects":["plate"],"expected":"round","metadata":{"backbone":"your_model"}}
+{"id":"pattern_example","image":"images/pattern.png","semantic":"texture","subtype":"pattern","objects":["shirt"],"expected":"striped","metadata":{"backbone":"your_model"}}
+{"id":"surface_example","image":"images/surface.png","semantic":"texture","subtype":"surface","objects":["stone"],"expected":"rough","metadata":{"backbone":"your_model"}}
+{"id":"count_example","image":"images/count.png","semantic":"count","objects":["mug"],"expected":3,"metadata":{"backbone":"your_model"}}
+{"id":"position_example","image":"images/position.png","semantic":"spatial_relation","subtype":"left_right","objects":["mug","coffee pot"],"expected":"left","metadata":{"backbone":"your_model"}}
+{"id":"depth_example","image":"images/depth.png","semantic":"spatial_relation","subtype":"front_behind","objects":["hat","handbag"],"expected":"front","metadata":{"backbone":"your_model"}}
+{"id":"containment_example","image":"images/containment.png","semantic":"spatial_relation","subtype":"containment","objects":["apple","bowl"],"expected":"inside","metadata":{"backbone":"your_model"}}

@@ -1,0 +1,10 @@
+{
+  "source_repository": "hlg7/star-semantic-experiments",
+  "source_commit": "b9d9ea6",
+  "compiled_tasks_validated": 300,
+  "valid_scores_replayed": 5999,
+  "changed_scores": 0,
+  "invalid_answers_still_rejected": 1,
+  "imported_rows_with_exact_original_checks": 6000,
+  "new_gpu_inference": false
+}

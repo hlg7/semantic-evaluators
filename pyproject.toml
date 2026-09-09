@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "semantic-evaluators"
+version = "0.1.0"
+readme = "README.md"
+description = "Backbone-independent six-semantic image evaluation using Grounding DINO and Qwen3-VL"
+requires-python = ">=3.10"
+dependencies = ["Pillow==11.3.0"]
+
+[project.optional-dependencies]
+inference = ["transformers==4.57.1", "accelerate==1.10.1"]
+
+[project.scripts]
+semantic-evaluators = "semantic_evaluators.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["semantic_evaluators*"]
+
+[tool.setuptools.package-data]
+semantic_evaluators = ["*.json"]

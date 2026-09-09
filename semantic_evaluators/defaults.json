@@ -1,0 +1,28 @@
+{
+  "grounding_dino": {
+    "checkpoint": "IDEA-Research/grounding-dino-base",
+    "revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb",
+    "box_threshold": 0.3,
+    "text_threshold": 0.25,
+    "nms_iou": 0.5,
+    "processor_revision": "12bdfa3120f3e7ec7b434d90674b3396eccf88eb"
+  },
+  "geometry": {
+    "epsilon_x": 0.02,
+    "epsilon_y": 0.02
+  },
+  "qwen_vlm": {
+    "checkpoint": "Qwen/Qwen3-VL-8B-Instruct",
+    "revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "processor_revision": "0c351dd01ed87e9c1b53cbc748cba10e6187ff3b",
+    "image_pixel_limits": {
+      "min_pixels": 65536,
+      "max_pixels": 262144
+    },
+    "decoding": {
+      "do_sample": false,
+      "max_new_tokens": 192
+    }
+  },
+  "protocol": "six_semantics_v1"
+}

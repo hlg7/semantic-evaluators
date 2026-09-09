@@ -1,0 +1,36 @@
+{
+  "COLORS": [
+    "black",
+    "blue",
+    "brown",
+    "green",
+    "orange",
+    "pink",
+    "purple",
+    "red",
+    "white",
+    "yellow"
+  ],
+  "SHAPES": [
+    "round",
+    "oval",
+    "square",
+    "rectangular",
+    "triangular"
+  ],
+  "SYSTEM": "Judge visible evidence only. The question names an object to search for; it does not establish its presence. First identify the requested object independently of the attribute being tested. Do not substitute another object because its color, shape, pattern or position fits a possible answer. For attribute/relation tasks require exactly one identifiable instance of each named object. Multiple eligible instances are ambiguous even if their attributes agree; do not pick the most favorable instance. Use identity_status=present only when all required objects are present and uniquely identifiable; otherwise use missing, ambiguous, or unclear. For presence/count tasks, identity_status may be present, absent, or unclear; multiple objects are allowed. Count physical instances over the entire image, including recognizable partial instances and background instances, but not reflections or depictions. If an exact count cannot be established use unclear, not a guessed count. Do not infer attributes from object stereotypes. Return JSON only with keys identity_status, status, answer, evidence. status must be ok, missing, ambiguous, or unclear. For status=ok, answer must be a non-null allowed answer. For other statuses answer must be null. For attribute/relation tasks a non-present identity_status must equal status. Confirmed absence is status=ok with answer=false for presence, or answer=0 for count. Counts must be JSON integers. Evidence must briefly describe the visible object and relevant property.",
+  "DEFINITIONS": {
+    "notebook": "A paper notebook is a bound set of paper pages for writing. A laptop or notebook computer is excluded.",
+    "plate": "A plate is a shallow individual eating or serving dish. A loaf pan, deep bowl, cutting board, table, or solid pyramid is not a plate. A rectangular plate may exist; shape alone does not establish identity.",
+    "tray": "A tray is a separate portable flat serving carrier, usually with a rim or handles. A tabletop itself is not a tray.",
+    "bowl": "A bowl is an open relatively deep dish for food or contents. Distinguish it from a flower vase and from a cooking or loaf pan by visible structure; use unclear if this is unresolved.",
+    "vase": "A vase is an upright vessel intended to hold flowers, identifiable by its vessel structure. Do not assign vase versus bowl using the desired relative position.",
+    "picture frame": "A picture frame is a physical border intended to hold a picture. A computer monitor, window frame or clock bezel is excluded.",
+    "mirror": "A mirror is a reflective surface. An open doorway, window or empty architectural opening is excluded. When reflection versus opening cannot be established, use unclear.",
+    "sign": "A sign is a physical signboard or plaque intended to display information. An architectural opening or pillar is excluded even if its outline fits an answer.",
+    "remote control": "A remote control is a handheld device for operating equipment at a distance. A gamepad or console controller is excluded; unresolved device identity is unclear.",
+    "pencil case": "A pencil case is a small container or pouch for writing implements. Do not substitute a computer, binder, or unidentified box."
+  },
+  "COLOR": "For color, judge the dominant visible exterior material of the identified object. Include a permanently attached frame or body; exclude contents seen through transparent walls, empty openings, reflections and illumination. Use the tint of transparent material only when the tint itself is visible; colorless transparent material is other. If no single exterior color dominates, use multicolored. Do not use the expected color to select a part.",
+  "SURFACE": "Judge the dominant visible surface area. Rough requires discernible grain, pits or irregularities; smooth requires a visibly even surface. Use mixed when both rough and smooth areas are substantial and neither dominates. Structural edges, shadows, material names, blur or sharpness alone are insufficient evidence."
+}
