@@ -19,7 +19,7 @@ The input is UTF-8 JSONL, one object per nonblank line. IDs are unique strings m
 
 Default subtypes for other tasks: object=`identity`, color=`color`, shape=`outline`, count=`single_category`. A compiled check is validated but its text is not regenerated; users are responsible for its rule provenance. When `check` is supplied it takes precedence over generic task fields.
 
-Reference values: object uses JSON `true`/`false`, count uses a nonnegative integer (not a bool), and all other tasks use the categorical strings listed in [evaluator rules](evaluators.md). The generic interface supports testing absence and counts beyond the source experiment's 2–6 range.
+Reference values: object uses JSON `true`/`false`, count uses a nonnegative integer (not a bool), and all other tasks use the categorical strings listed in [evaluator rules](evaluators.md). The generic interface supports testing absence and arbitrary nonnegative target counts.
 
 No `expected` field is passed to the backend. `protocol.observation_task` restricts inputs to the semantic, subtype, identity-validation flag and evaluator question/definitions. Model output validation and target matching are separate operations.
 

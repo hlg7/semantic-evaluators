@@ -34,7 +34,7 @@ For non-`ok` observations, the answer must be null. Comparison is type-sensitive
 
 ## Runtime and image handling
 
-Python 3.10+ is required. Inference requires CUDA and a matching PyTorch/torchvision installation; the source experiment used Python 3.12, torch 2.8.0+cu128 and torchvision 0.23.0+cu128 on a 24 GB RTX 4090. The extracted CLI has not yet been tested with new GPU inference; see [verification scope](provenance.md).
+Python 3.10+ is required. Inference requires CUDA and a matching PyTorch/torchvision installation. Experiment 01 uses a vendored evaluator with its own pinned GPU environment; see the [Infinity experiment](https://github.com/hlg7/infinity-semantic-masking) and [verification scope](provenance.md).
 
 Static RGB-convertible images are accepted at their actual dimensions. Models use their own processors for resizing. EXIF rotation is not applied; animated/multipage inputs are rejected. Image SHA-256 values refer to file bytes. Generation tensor hashes are distinct metadata.
 

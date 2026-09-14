@@ -4,7 +4,7 @@
 
 ## Install
 
-Python 3.10+ is required. Use Python 3.12 for the environment closest to the original experiment.
+Python 3.10+ is required. Python 3.12 is suitable for the GPU environment.
 
 ```bash
 git clone https://github.com/hlg7/semantic-evaluators.git
@@ -18,7 +18,7 @@ Validation, scoring logic, summaries and tests run without CUDA. For model infer
 python -m pip install -e '.[inference]'
 ```
 
-PyTorch/torchvision are intentionally not installed by this package because their builds must match your GPU environment. The source experiment used `torch==2.8.0+cu128`, `torchvision==0.23.0+cu128`, Python 3.12 and an RTX 4090 (24 GB). The adapters load one model at a time. First inference downloads the pinned Hugging Face checkpoints; set `HF_HOME` to persistent storage. Model licenses and access terms apply separately.
+PyTorch/torchvision are intentionally not installed by this package because their builds must match your GPU environment. The adapters load one model at a time. First inference downloads the pinned Hugging Face checkpoints; set `HF_HOME` to persistent storage. Model licenses and access terms apply separately.
 
 ## Describe your images
 
@@ -54,22 +54,6 @@ Results are written atomically under `predictions/`, with raw answers, attempts,
 
 Pairing is optional. A baseline must be in the same manifest with the identical evaluation task/reference. Supplied backbone, prompt ID and seed must agree when present on both records. The caller remains responsible for a scientifically meaningful experiment design.
 
-## Import the existing STAR experiment
-
-The optional adapter preserves the **exact compiled questions and scorer references**, rather than rebuilding questions from a new template:
-
-```bash
-semantic-evaluators import-star \
-  --repo /path/to/star-semantic-experiments \
-  --output star.jsonl
-semantic-evaluators validate --manifest star.jsonl --image-root /path/to/star-images
-semantic-evaluators run --manifest star.jsonl --image-root /path/to/star-images --output outputs/star
-```
-
-It reads the original v3 checks and canonical metric inventory. It does not copy images, weights or results. Historical STAR tensor hashes are retained only as metadata, never used as image-file hashes. Other backbones do not need this adapter.
-
-The generic builder uses the same rules with a new input contract; its generated question strings are not promised byte-identical to the old STAR builder. Use compiled import plus the original environment for closest reproduction. New GPU inference through this refactored CLI has **not** yet been run; local pipeline tests and replay of original predictions are documented in [provenance](provenance.md).
-
 ## Repository structure
 
 ```text
@@ -82,11 +66,10 @@ semantic_evaluators/
   io.py             # Manifest, image and baseline validation
   runner.py         # Provenance, output locks, atomic results and resume
   summary.py        # Generic groups and optional baseline-paired aggregates
-  import_star.py    # Optional historical STAR adapter
   __main__.py       # CLI entry point
 examples/           # Input manifest examples (provide your own image files)
 docs/               # Complete evaluator rules, interface and provenance
 tests/              # Model-free protocol and pipeline tests
 ```
 
-Run tests with `python -m unittest discover -s tests -v`. No pretrained model or external image dataset is shipped here. The original research results and plots stay in [star-semantic-experiments](https://github.com/hlg7/star-semantic-experiments).
+Run tests with `python -m unittest discover -s tests -v`. No pretrained model or external image dataset is shipped here. Experiment 01 results are in [Infinity semantic-class masking](https://github.com/hlg7/infinity-semantic-masking).

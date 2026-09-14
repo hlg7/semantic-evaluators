@@ -1,6 +1,6 @@
 # Semantic Evaluators
 
-A backbone-independent evaluator for six aspects of generated images. Provide **images and structured targets**; the package observes each image, scores the answer and summarizes results. It supports STAR and other generators without requiring a particular image size, scale count or generation format.
+A backbone-independent evaluator for six aspects of generated images. Provide **images and structured targets**; the package observes each image, scores the answer and summarizes results. It supports Infinity and other generators without requiring a particular image size, scale count or generation format.
 
 ## What the six evaluators check
 
@@ -31,7 +31,7 @@ Input is JSONL, one image/task per line. For example:
 
 The expected answer is used only by the scorer, not passed to the model. Texture and spatial tasks also specify a subtype. Optional metadata records backbone, prompt, seed and condition; `baseline_id` enables paired comparisons. One image may appear in several tasks with different IDs.
 
-Outputs include per-image observations, raw answers/detections, scores and errors, plus grouped success rates, uncertainty and coverage. Optional baseline comparisons give paired change and retention; count also reports deviation from the requested count. No image, model weight or STAR result dataset is bundled.
+Outputs include per-image observations, raw answers/detections, scores and errors, plus grouped success rates, uncertainty and coverage. Optional baseline comparisons give paired change and retention; count also reports deviation from the requested count. No images, model weights or experiment result datasets are bundled.
 
 ## Choose the level of detail
 
@@ -40,8 +40,8 @@ Outputs include per-image observations, raw answers/detections, scores and error
 | Understand the evaluator | This page |
 | Look up precise category definitions, answer vocabularies or scoring conventions | [Complete semantic rules](docs/evaluators.md) |
 | Check model revisions, thresholds, response parsing or resume behavior | [Parameters and engineering](docs/engineering.md) |
-| Install, run, or import the existing STAR experiment | [Run guide](docs/usage.md) |
+| Install and run on your experiment images | [Run guide](docs/usage.md) |
 | Prepare input files or consume results | [Input/output contract](docs/interface.md) |
 | Understand verification and known limits | [Provenance](docs/provenance.md) |
 
-Start with the run guide for `validate → run → summarize`. Validation and aggregation work locally; model inference requires CUDA. The original experiment and its 6,000-image results remain in [star-semantic-experiments](https://github.com/hlg7/star-semantic-experiments).
+Start with the run guide for `validate → run → summarize`. Validation and aggregation work locally; model inference requires CUDA. The first experiment using this evaluator is [Infinity semantic-class masking](https://github.com/hlg7/infinity-semantic-masking), which contains experiment-specific inputs, scores and curves.

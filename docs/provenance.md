@@ -1,17 +1,15 @@
-# Provenance and validation limits
+# Evaluator versions and validation limits
 
-The default rule text, category definitions, scorer behavior, checkpoint revisions and detector thresholds originate from the final v3 evaluator in [hlg7/star-semantic-experiments](https://github.com/hlg7/star-semantic-experiments/tree/b9d9ea6), consolidated September 9, 2026. Original source files include `semantic_scoring.py`, `run_semantic_full.py`, `data/semantic_eval_v2/build.py`, `data/semantic_eval_v3/build.py` and the pinned evaluation configuration.
+This package defines the backbone-independent `six_semantics_v1` protocol. Rule text and category definitions are in `semantic_evaluators/rules.json`; model revisions and detector thresholds are pinned in `defaults.json`. Compiled checks may retain their own protocol identifiers, including `semantic_eval_v3_exploratory`; those identifiers are part of the input contract and are not experiment numbers.
 
-This repository is a standalone refactor: no STAR model, generation hook, mask schedule, scene dataset, model weights, private credentials or experiment images are required. The source research repository retains its frozen code and results. The new protocol name is `six_semantics_v1`; the historical imported checks retain `semantic_eval_v3_exploratory`.
+## Experiment 01: Infinity semantic-class masking
 
-The previous study evaluated 6,000 canonical images with 5,999 valid primary scores and one invalid color answer (`silver`). Prior development/held-out AI reviews exposed identity confusion, sparse clear count labels, surface-texture disagreements and category ambiguity. No category passed every prespecified screen. The held-out findings informed the final v3 revision, so that split does not independently validate v3 or this refactor.
+The first project experiment is [Infinity semantic-class masking](https://github.com/hlg7/infinity-semantic-masking): 300 prompts, seed 42 and 7,800 generated images. It uses an independent vendored evaluator, frozen checks and experiment-specific aggregation. Its repository contains the scores, curves, limitations and six audited output-category normalizations. Updating this general package does not automatically change that experiment's scores.
 
-Validation for extraction includes model-free tests covering six tasks, answer isolation, unseen nouns, schema failures, arbitrary image dimensions, SHA checks, correct baseline pairing, atomic/resumable runs, error-history preservation and output locks. Frozen source predictions are replayed through the extracted scorer to check score preservation; this does not retest visual perception. No new GPU model inference has been performed through the standalone package while the Pod is stopped.
+## Validation scope
 
-For a new backbone, keep evaluator rules/configuration fixed across compared conditions and inspect a calibration sample from that image distribution. General code and task definitions do not guarantee calibrated accuracy across generators, resolutions, subjects or styles. Unknown rates are model behaviors, not ground-truth uncertainty. Preserve failure cases and avoid presenting exploratory automated scores as validated human judgments.
+Model-free tests cover six tasks, answer isolation, unseen nouns, schema failures, arbitrary image dimensions, SHA checks, correct baseline pairing, atomic/resumable runs, error-history preservation and output locks. Run `python -m unittest discover -s tests -v` to verify the current package. These tests check software behavior, not visual judgment accuracy.
 
-Model names and pinned revisions are references to third-party model artifacts; their licenses and usage terms remain separate. No weights are redistributed here.
+Keep evaluator rules/configuration fixed across compared conditions and inspect a calibration sample from each image distribution. General task definitions do not guarantee calibrated accuracy across generators, resolutions, subjects or styles. Identity confusion, count errors, texture disagreement and category ambiguity remain possible. Preserve failures and report valid denominators; automated scores are exploratory rather than validated human judgments.
 
-## Extraction checks completed
-
-19 model-free tests pass. All 300 historical compiled tasks validate; replay of all 5,999 valid original predictions yields exactly the same scores, and the single invalid color answer remains rejected. The STAR importer preserves all 6,000 original compiled checks. See [machine-readable verification](replay_verification.json). Package installation and the CLI were checked locally; these checks do not establish new GPU adapter equivalence or visual accuracy.
+Model names and pinned revisions refer to third-party artifacts; their licenses and usage terms remain separate. No model weights are redistributed here.

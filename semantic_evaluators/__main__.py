@@ -7,11 +7,7 @@ def main():
         q=sub.add_parser(name);q.add_argument('--manifest',required=True);q.add_argument('--image-root');q.add_argument('--config')
         if name=='run':q.add_argument('--output',required=True);q.add_argument('--tool',choices=['all','grounding_dino','qwen_vlm'],default='all')
     q=sub.add_parser('summarize');q.add_argument('--output',required=True)
-    q=sub.add_parser('import-star');q.add_argument('--repo',required=True);q.add_argument('--output',required=True);q.add_argument('--image-root')
     a=p.parse_args()
-    if a.command=='import-star':
-        from .import_star import export_star
-        print('Exported',export_star(a.repo,a.output,a.image_root),'records');return 0
     if a.command=='summarize':
         from .summary import summarize
         result=summarize(a.output);print(json.dumps(result,indent=2));return 0 if result['status']=='complete' else 1

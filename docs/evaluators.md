@@ -2,7 +2,7 @@
 
 [Quick overview](../README.md) · [Parameters and engineering](engineering.md) · [Input/output contract](interface.md)
 
-These defaults derive from the STAR study's frozen v3 protocol. They are general task rules, not claims of validated accuracy on every backbone or dataset. See [provenance](provenance.md).
+These are the fixed six-semantic rules used by the evaluator. They are general task rules, not claims of validated accuracy on every backbone or dataset. See [provenance](provenance.md).
 
 ## Common observation rules
 
@@ -137,4 +137,4 @@ Reported metrics:
 4. **Baseline-correct retention:** success among valid pairs whose baseline score is one, with its denominator.
 5. **Count deviation and numeric coverage**, plus texture/spatial subtype curves.
 
-All images remain represented in the saved results. Difficult prompts are not dropped to improve curves. The generic summary reports descriptive means, not confidence intervals. Replicate seeds, clustered scene templates and pairing design are the responsibility of each experiment. The standalone package does not require STAR scale curves.
+All images remain represented in the saved results. Difficult prompts are not dropped to improve curves. The generic summary reports descriptive means, not confidence intervals. Replicate seeds, clustered scene templates and pairing design are the responsibility of each experiment. The standalone package does not require a particular generation schedule or scale curve.
